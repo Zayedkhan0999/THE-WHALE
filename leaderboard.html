@@ -1,0 +1,73 @@
+<!-- leaderboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center h-screen bg-gray-900 text-white">
+    <!-- Leaderboard Container -->
+    <div class="text-center w-full max-w-md">
+        <h2 class="text-3xl font-bold mb-6">TOP PLAYERS</h2>
+
+        <!-- Player Rank -->
+        <div id="playerRank" class="mb-4 text-lg font-semibold text-blue-400">
+            Your Rank: <span id="playerRankNumber">--</span>
+            <span id="playerScore">--</span> thousand
+        </div>
+
+        <!-- Leaderboard List -->
+        <ul id="leaderboard" class="space-y-2">
+            <!-- Placeholder for dynamically added player scores -->
+        </ul>
+    </div>
+
+    <script>
+        // Sample leaderboard data
+        const leaderboardData = [
+            { name: "Paul", score: 2090000 },
+            { name: "MrLoh", score: 1000000 },
+            { name: "tiengh", score: 35000 },
+            { name: "Mary", score: 6710 },
+            { name: "Jessica", score: 3170 },
+            { name: "Christopher", score: 90070 },
+            { name: "Jennifer", score: 77270 },
+            { name: "Lisa", score: 64840 },
+            { name: "John", score: 60070 },
+            { name: "Thomas", score: 54860 }
+        ];
+
+        // Get player score from localStorage
+        const playerScore = parseFloat(localStorage.getItem('playerScore') || 0);
+        
+        // Add player to leaderboard and sort
+        leaderboardData.push({ name: "You", score: playerScore });
+        leaderboardData.sort((a, b) => b.score - a.score);
+
+        // Display leaderboard
+        const leaderboardElement = document.getElementById("leaderboard");
+        leaderboardData.forEach((player, index) => {
+            const playerElement = document.createElement("li");
+            playerElement.classList.add("flex", "justify-between", "bg-gray-800", "rounded-lg", "px-4", "py-2", "text-white");
+            playerElement.innerHTML = `<span>${player.name}</span><span>${formatScore(player.score)}</span>`;
+            leaderboardElement.appendChild(playerElement);
+
+            // Find and display player's rank and score
+            if (player.name === "You") {
+                document.getElementById("playerRankNumber").textContent = index + 1;
+                document.getElementById("playerScore").textContent = formatScore(player.score);
+            }
+        });
+
+        // Format score for display (e.g., 2.09 billion, 100 million)
+        function formatScore(score) {
+            if (score >= 1e9) return (score / 1e9).toFixed(2) + " billion";
+            if (score >= 1e6) return (score / 1e6).toFixed(2) + " million";
+            if (score >= 1e3) return (score / 1e3).toFixed(2) + " thousand";
+            return score.toFixed(2);
+        }
+    </script>
+</body>
+</html>

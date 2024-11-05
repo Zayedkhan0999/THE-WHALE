@@ -1,0 +1,78 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Click Counter with Leaderboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center h-screen bg-gray-900 text-white">
+    <!-- Main Container -->
+    <div class="text-center">
+        <!-- Counter Display -->
+        <div class="text-3xl font-bold mb-6">
+            <span id="counter">0.00</span> thousand
+        </div>
+        
+        <!-- Income Information -->
+        <div class="flex items-center justify-center mb-4">
+            <span class="mr-2">INCOME:</span>
+            <span>1 / tap</span>
+        </div>
+        
+        <!-- Shark Icon (Clickable) -->
+        <div id="shark" class="w-32 h-32 mx-auto bg-blue-500 rounded-full flex items-center justify-center cursor-pointer transition transform hover:scale-105">
+            <!-- Shark Image Placeholder -->
+            <img src="pic/tree.jpg" alt="Shark Logo" class="w-full h-full object-cover rounded-full">
+        </div>
+        
+        <!-- Energy Display -->
+        <div class="mt-4">
+            <div>ENERGY: <span id="energy" class="text-green-400 font-bold">5841</span> per day</div>
+        </div>
+        <!-- Navigation Icons with Links -->
+<div class="flex justify-center mt-6 space-x-4">
+    <!-- Earn Button -->
+    <a href="index.html" class="w-12 h-12 bg-blue-500 flex items-center justify-center text-black font-semibold hover:bg-blue-600 transition">
+        <span class="text-sm">Earn</span>
+    </a>
+    
+    <!-- Leaderboard (LB) Button -->
+    <a href="leaderboard.html" class="w-12 h-12 bg-blue-500 flex items-center justify-center text-black font-semibold hover:bg-blue-600 transition">
+        <span class="text-sm">LB</span>
+    </a>
+    
+    <!-- Task Button -->
+    <a href="task.html" class="w-12 h-12 bg-blue-500 flex items-center justify-center text-black font-semibold hover:bg-blue-600 transition">
+        <span class="text-sm">Task</span>
+    </a>
+</div>
+
+    <script>
+        let count = 0.00;
+        let energy = 5841; // Daily click limit
+        const counterDisplay = document.getElementById("counter");
+        const energyDisplay = document.getElementById("energy");
+        const sharkIcon = document.getElementById("shark");
+
+        // Click event to increase count and decrease energy
+        sharkIcon.addEventListener("click", () => {
+            if (energy > 0) { // Check if there are remaining clicks for the day
+                count += 1;
+                energy -= 1;
+                counterDisplay.textContent = count.toFixed(2); // Update display with two decimal points
+                energyDisplay.textContent = energy; // Update energy display
+            } else {
+                alert("Daily limit reached! Try again tomorrow.");
+            }
+        });
+
+        // Save score and go to leaderboard
+        function saveScoreAndGoToLeaderboard() {
+            localStorage.setItem('playerScore', count);
+            window.location.href = "leaderboard.html";
+        }
+    </script>
+</body>
+</html>
